@@ -1,13 +1,13 @@
-**:warning: DEPRECATED IN FAVOR OF https://github.com/ArkEcosystem/core/tree/master/packages/crypto :warning:***
+**:warning: DEPRECATED IN FAVOR OF https://github.com/Qredit/core/tree/master/packages/crypto :warning:***
 
-![ARK JavaScript](https://i.imgur.com/ywwE2uF.png)
+![Qredit JavaScript](https://i.imgur.com/ywwE2uF.png)
 
 
 [![Build Status](https://travis-ci.org/ArkEcosystem/ark-js.svg?branch=master)](https://travis-ci.org/ArkEcosystem/ark-js)
 
-# Ark JS
+# Qredit JS
 
-Ark JS is a JavaScript library for sending ARK transactions. It's main benefit is that it does not require a locally installed ARK node, and instead utilizes the existing peers on the network. It can be used from the client as a [browserify](http://browserify.org/) compiled module, or on the server as a standard Node.js module.
+Qredi JS is a JavaScript library for sending Qredit transactions. It's main benefit is that it does not require a locally installed Qredit node, and instead utilizes the existing peers on the network. It can be used from the client as a [browserify](http://browserify.org/) compiled module, or on the server as a standard Node.js module.
 
 ## Installation
 
@@ -82,7 +82,7 @@ Returning:
 
 ### Generating an address
 
-To generate a unique Ark address from a given public key:
+To generate a unique Qredit address from a given public key:
 
 ```js
 var address = ark.crypto.getAddress("5d036a858ce89f844491762eb89e2bfbd50a4a0a0da658e4b2628b25b117ae09");
@@ -286,7 +286,7 @@ var transaction = ark.vote.createVote("secret", ["+58199578191950019299181920120
 
 ## Security
 
-If you discover a security vulnerability within this package, please send an e-mail to security@ark.io. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within this package, please send an e-mail to security@Qredit.io. All security vulnerabilities will be promptly addressed.
 
 ## Authors
 - FX Thoorens <fx@ark.io>
