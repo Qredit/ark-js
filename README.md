@@ -5,9 +5,11 @@ Qredi JS is a JavaScript library for sending Qredit transactions. It's main bene
 
 ## Installation
 
-[![npm package](https://nodei.co/npm/arkjs.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/arkjs/)
+```
+npm install --save https://github.com/Qredit/qredit-js
+```
 
-## Building
+## Building for Browser Use (Not needed for Nodejs)
 
 Build the browserify module for client use:
 
@@ -36,13 +38,13 @@ Tests written using mocha + schedule.js.
 On the client:
 
 ```html
-<script src="node_modules/arkjs/bundle.min.js"></script>
+<script src="node_modules/qreditjs/bundle.min.js"></script>
 ```
 
 On the server:
 
 ```js
-var ark = require("arkjs");
+var qreditjs = require("qreditjs");
 ```
 
 ### Generating a key pair
@@ -50,7 +52,7 @@ var ark = require("arkjs");
 To generate a public / private key pair from a given passphrase:
 
 ```js
-var keys = ark.crypto.getKeys("passphrase");
+var keys = qreditjs.crypto.getKeys("passphrase");
 ```
 
 Returning:
@@ -79,13 +81,13 @@ Returning:
 To generate a unique Qredit address from a given public key:
 
 ```js
-var address = ark.crypto.getAddress("5d036a858ce89f844491762eb89e2bfbd50a4a0a0da658e4b2628b25b117ae09");
+var address = qreditjs.crypto.getAddress("5d036a858ce89f844491762eb89e2bfbd50a4a0a0da658e4b2628b25b117ae09");
 ```
 
 Returning:
 
 ```
-AGihocTkwDygiFvmg6aG8jThYTic47GzU9
+QGihocTkwDygiFvmg6aG8jThYTic47GzU9
 ```
 
 ### Creating a transaction
@@ -94,7 +96,7 @@ To create a signed transaction object, which can then be broadcasted onto the ne
 
 ```js
 var amount      = 1000 * Math.pow(10, 8); // 100000000000
-var transaction = ark.transaction.createTransaction("AGihocTkwDygiFvmg6aG8jThYTic47GzU9", amount, null, "passphrase", "secondPassphrase");
+var transaction = qreditjs.transaction.createTransaction("QGihocTkwDygiFvmg6aG8jThYTic47GzU9", amount, null, "passphrase", "secondPassphrase");
 ```
 
 Returning:
@@ -106,7 +108,7 @@ Returning:
   asset: {}, // Transaction asset, dependent on tx type.
   fee: 100000000, // 0.1 ARK expressed as an integer value.
   id: "500224999259823996", // Transaction ID.
-  recipientId: "AGihocTkwDygiFvmg6aG8jThYTic47GzU9", // Recipient ID.
+  recipientId: "QGihocTkwDygiFvmg6aG8jThYTic47GzU9", // Recipient ID.
   senderPublicKey: "56e106a1d4a53dbe22cac52fefd8fc4123cfb4ee482f8f25a4fc72eb459b38a5", // Sender's public key.
   signSignature: "03fdd33bed30270b97e77ada44764cc8628f6ad3bbd84718571695262a5a18baa37bd76a62dd25bc21beacd61eaf2c63af0cf34edb0d191d225f4974cd3aa509", // Sender's second passphrase signature.
   signature: "9419ca3cf11ed2e3fa4c63bc9a4dc18b5001648e74522bc0f22bda46a188e462da4785e5c71a43cfc0486af08d447b9340ba8b93258c4c7f50798060fff2d709", // Transaction signature.
@@ -114,63 +116,7 @@ Returning:
 }
 ```
 
-### Network identification with Nethash
 
-You need to obtain the nethash in order to be sure you are broadcasting to the right network (testnet, mainnet or others). The nethash is simply the payload hash from the genesisBlock. If no nethash or wrong nethash is provided in the headers, the request will be rejected returning the expected nethash.
-
-```json
-{ "success": false, "message": "Request is made on the wrong network", "expected":"e2f8f69ec6ab4b12550a314bd867c46e64e429961bb427514a3a534c602ff467", "received":"wrong-nethash" }
-```
-
-The nethash for a given network can be obtained at the following API endpoint:
-
-```
-/api/blocks/getNetHash
-```
-
-You can also get the nethash from a peer this way:
-
-On the client using [jQuery](https://jquery.com/):
-
-```js
-var nethash;
-$.ajax({
-  url: "https://api.arknode.net/peer/transactions/",
-  data: JSON.stringify({}),
-  dataType: "json",
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "os": "linux3.2.0-4-amd64",
-    "version": "0.3.0",
-    "port": 1,
-    "nethash": "wrong-nethash"
-  },
-  success: function(data) {
-    nethash = data.body.expected;
-  }
-});
-```
-
-From a server using [Request](https://github.com/request/request):
-
-```js
-var nethash;
-request({
-  url: "https://api.arknode.net/peer/transactions",
-  json: { },
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "os": "linux3.2.0-4-amd64",
-    "version": "0.3.0",
-    "port": 1,
-    "nethash": "wrong-nethash"
-  }
-}, function(error, response, body) {
-    nethash = body.expected;
-  });
-```
 
 ### Posting a transaction
 
@@ -199,7 +145,7 @@ var success = function(data) {
 };
 
 $.ajax({
-  url: "https://api.arknode.net/peer/transactions",
+  url: "https://qredit.cloud/peer/transactions",
   data: JSON.stringify({ transactions: [transaction] }),
   dataType: "json",
   method: "POST",
@@ -227,7 +173,7 @@ var callback = function(error, response, body) {
 };
 
 request({
-  url: "https://api.arknode.net/peer/transactions",
+  url: "https://qredit.cloud/peer/transactions",
   json: { transactions: [transaction] },
   method: "POST",
   headers: {
@@ -261,19 +207,19 @@ If the transaction is deemed invalid, or an error is encountered, the receiving 
 #### Creating a delegate transaction
 
 ```js
-var transaction = ark.delegate.createDelegate("secret", "username", "secondSecret");
+var transaction = qreditjs.delegate.createDelegate("secret", "username", "secondSecret");
 ```
 
 #### Creating a second signature transaction
 
 ```js
-var transaction = ark.signature.createSignature("secret", "secondSecret");
+var transaction = qreditjs.signature.createSignature("secret", "secondSecret");
 ```
 
 #### Creating a vote transaction
 
 ```js
-var transaction = ark.vote.createVote("secret", ["+58199578191950019299181920120128129"], "secondSecret");
+var transaction = qreditjs.vote.createVote("secret", ["+58199578191950019299181920120128129"], "secondSecret");
 ```
 
 ***
