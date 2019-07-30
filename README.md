@@ -1,9 +1,3 @@
-**:warning: DEPRECATED IN FAVOR OF https://github.com/Qredit/core/tree/master/packages/crypto :warning:***
-
-![Qredit JavaScript](https://i.imgur.com/ywwE2uF.png)
-
-
-[![Build Status](https://travis-ci.org/ArkEcosystem/ark-js.svg?branch=master)](https://travis-ci.org/ArkEcosystem/ark-js)
 
 # Qredit JS
 
